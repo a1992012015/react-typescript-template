@@ -1,0 +1,28 @@
+@import '../../styles/vars';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  min-width: $min-view-width;
+  max-width: $max-view-width;
+  width: 100%;
+  margin: 0 auto;
+
+  .navigation {
+    display: flex;
+
+    .nav-link {
+      color: #ffffff;
+      display: flex;
+    }
+    .nav-link-active {
+      color: #ffffff;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 30px;
+      cursor: pointer;
+    }
+  }
+}
