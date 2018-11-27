@@ -10,7 +10,7 @@ export default class extends Component<IProps, object> {
     return (
       <Switch>
         {this.props.children}
-        <Redirect to='/error' />
+        <Redirect to='/error'/>
       </Switch>
     );
   }

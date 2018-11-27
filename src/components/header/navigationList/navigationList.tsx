@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { History } from 'history';
 
-import styles from "./navigationList.module.scss";
+import styles from './navigationList.module.scss';
 
 interface IProps {
   history: History;
@@ -34,9 +34,9 @@ class NavigationList extends Component<IProps, IState> {
           label: '/enthusiasm'
         },
         {
-          path: '/saga-test',
-          name: 'SagaTest',
-          label: '/saga-test'
+          path: '/saga',
+          name: 'Saga',
+          label: '/saga'
         }
       ]
     };
@@ -86,7 +86,7 @@ class NavigationList extends Component<IProps, IState> {
               key={`navigationList${item.label}`}
               classes={{
                 selected: styles['navigation-action-selected'],
-                root: styles['navigation-action-root'],
+                root: styles['navigation-action-root']
               }}
               label={item.name}
             />

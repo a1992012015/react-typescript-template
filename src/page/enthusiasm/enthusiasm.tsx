@@ -3,10 +3,10 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Typography, Button } from '@material-ui/core';
 
-import { decrementEnthusiasm, incrementEnthusiasm } from '../../store/actions/Enthusiasm';
+import { decrementEnthusiasm, incrementEnthusiasm } from '../../store/actions/EnthusiasmAction';
 import { IReducers, IEnthusiasm } from '../../interfaces/global';
 
-import styles from './enthusiasm.module.scss'
+import styles from './enthusiasm.module.scss';
 
 interface IProps {
   enthusiasm: IEnthusiasm;
@@ -30,11 +30,11 @@ class Enthusiasm extends Component<IProps, object> {
   };
 
   render() {
-    const { enthusiasm: {enthusiasmLevel, name } } = this.props;
+    const { enthusiasm: { enthusiasmLevel, name } } = this.props;
     return (
       <div className={styles['enthusiasm']}>
         <Typography variant="h3" gutterBottom classes={{
-          h3: styles['enthusiasm-h3'],
+          h3: styles['enthusiasm-h3']
         }}>
           Hello {`${name}${this.getExclamationMarks(enthusiasmLevel)}`}
         </Typography>

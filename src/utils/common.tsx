@@ -2,7 +2,7 @@ import React from 'react';
 import { Snackbar } from '@material-ui/core';
 
 // 名字转换颜色值
-export const avatarColor = (name: string) => {
+export const avatarColor = (name: string): string => {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
@@ -41,9 +41,9 @@ export const openNotificationWithIcon = (flag: boolean) => {
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={flag}
       ContentProps={{
-        'aria-describedby': 'message-id',
+        'aria-describedby': 'message-id'
       }}
       message={<span id="message-id">I love snacks</span>}
     />
-  )
+  );
 };

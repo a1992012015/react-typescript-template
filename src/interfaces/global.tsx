@@ -1,4 +1,4 @@
-import { IAuthSore } from './authApi'
+import { IAuthSore } from './authApi';
 
 export interface IEnthusiasm {
   name: string;
@@ -8,5 +8,5 @@ export interface IEnthusiasm {
 export interface IReducers {
   enthusiasm: IEnthusiasm;
   auth: IAuthSore;
-  sagaTest: number;
+  saga: number;
 }

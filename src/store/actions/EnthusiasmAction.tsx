@@ -1,4 +1,4 @@
-import {INCREMENT_ENTHUSIASM, DECREMENT_ENTHUSIASM } from '../action-type/Enthusiasm';
+import { INCREMENT_ENTHUSIASM, DECREMENT_ENTHUSIASM } from '../action-type/EnthusiasmType';
 
 export interface IncrementEnthusiasm {
   type: INCREMENT_ENTHUSIASM;

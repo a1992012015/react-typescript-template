@@ -1,16 +1,16 @@
 import { DeepPartial, Middleware, Reducer, applyMiddleware, createStore } from 'redux';
-import { EnhancerOptions, composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
+import { EnhancerOptions, composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createLogger } from 'redux-logger';
-import createSagaMiddleware, { SagaMiddlewareOptions } from 'redux-saga';
+import createSagaMiddleware from 'redux-saga';
 
 import createReducerCreator from './reducers';
 import { IReducers } from '../interfaces/global';
 
-import enthusiasm from './reducers/enthusiasm';
-import auth from './reducers/auth';
-import sagaTest from './reducers/saga-test';
+import enthusiasm from './reducers/enthusiasmReducer';
+import auth from './reducers/authReducer';
+import saga from './reducers/sagaReducer';
 
-import rootSaga from './actions/Saga-test'
+import rootSaga from './actions';
 
 // Check if Redux DevTools is available for redux-logger
 const devToolsAvailable = window['__REDUX_DEVTOOLS_EXTENSION__'] !== undefined;
@@ -47,7 +47,13 @@ const initState: IReducers = {
   },
   auth: {
     isSignIn: false,
-    userInfo: {},
+    userInfo: {
+      id: 0,
+      phone: '',
+      roles: [],
+      status: '',
+      username: '',
+    },
     token: {
       access_token: '',
       token_type: '',
@@ -57,8 +63,14 @@ const initState: IReducers = {
       jti: ''
     }
   },
-  sagaTest: 0,
+  saga: 0
 };
+
+const authToken = localStorage.getItem('authToken');
+
+if (authToken) {
+  initState.auth['token'] = JSON.parse(authToken);
+}
 
 /**
  * Create a Redux store complete with potential development settings
@@ -90,7 +102,7 @@ function configureStore<S>({
 const createReducer = createReducerCreator<IReducers>({
   enthusiasm,
   auth,
-  sagaTest
+  saga
 });
 
 const sagaMiddleware = createSagaMiddleware();

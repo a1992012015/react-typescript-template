@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { store } from '../store';
-import { DELETE_INFO } from '../store/action-type/Auth';
-import { openNotificationWithIcon } from './common'
+import { DELETE_INFO } from '../store/action-type/AuthType';
+import { openNotificationWithIcon } from './common';
 
 const errorHandle = (error: any) => {
   const { response } = error;
@@ -55,7 +55,7 @@ authRequest.interceptors.request.use(config => {
       ...config,
       headers: {
         ...(config.headers || {}),
-        Authorization: `Bearer ${auth.token.access_token}`
+        Authorization: `${auth.token.token_type} ${auth.token.access_token}`
       }
     };
   }

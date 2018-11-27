@@ -8,7 +8,7 @@ interface IConfig {
 
 let config: IConfig = {
   Oauth: '',
-  Mall: '',
+  Mall: ''
 };
 
 if (process.env.NODE_ENV === 'development') {

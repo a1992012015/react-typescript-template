@@ -1,14 +1,15 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { NavLink, withRouter, match } from 'react-router-dom';
 import { History, Location } from 'history';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
 import UserState from './userState/userState';
 import NavigationList from './navigationList/navigationList';
-import { IAuthSore } from '../../interfaces/authApi';
-import { IReducers } from '../../interfaces/global';
 
+import { IAuthSore, ISignInApi } from '../../interfaces/authApi';
+import { IReducers } from '../../interfaces/global';
 import styles from './header.module.scss';
 
 interface IProps {
@@ -16,9 +17,34 @@ interface IProps {
   history: History;
   match: match;
   auth: IAuthSore;
+  dispatch: Dispatch;
 }
 
-class Header extends React.Component<IProps, object> {
+class Header extends Component<IProps, object> {
+  componentDidMount(): void {
+    const { dispatch, auth } = this.props;
+    if (auth.token.access_token) {
+      dispatch({
+        type: 'GET_INFO',
+      })
+    }
+  }
+
+  signIn = (data: ISignInApi) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'SIGN_IN',
+      payload: data
+    })
+  };
+
+  signOut = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'DELETE_INFO',
+    })
+  };
+
   render() {
     const { history, auth } = this.props;
     return (
@@ -34,7 +60,7 @@ class Header extends React.Component<IProps, object> {
             <NavigationList history={history}/>
           </div>
 
-          <UserState auth={auth}/>
+          <UserState signOut={this.signOut} signIn={this.signIn} auth={auth}/>
         </Toolbar>
       </AppBar>
     );

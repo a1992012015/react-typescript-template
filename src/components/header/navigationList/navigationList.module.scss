@@ -4,9 +4,11 @@
   background: #3f51b5 !important;
 
   .navigation-action-root {
-    color: rgba(255, 255, 255, 0.8)
+    color: rgba(255, 255, 255, .6)
   }
+
   .navigation-action-selected {
-    color: rgba(255, 255, 255, 1)
+    color: rgba(255, 255, 255, 1);
+    font-weight: 600;
   }
 }
