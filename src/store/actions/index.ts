@@ -1,11 +1,13 @@
 import { all } from 'redux-saga/effects';
 
-import saga from './SagaAction';
-import auth from './AuthAction';
+import sagaAction from './SagaAction';
+import authAction from './AuthAction';
+import notificationAction from './NotificationAction';
 
 export default function* rootSaga() {
   yield all([
-    ...saga,
-    ...auth
+    ...sagaAction,
+    ...authAction,
+    ...notificationAction
   ]);
 }

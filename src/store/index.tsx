@@ -2,6 +2,9 @@ import { DeepPartial, Middleware, Reducer, applyMiddleware, createStore } from '
 import { EnhancerOptions, composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
+
 
 import createReducerCreator from './reducers';
 import { IReducers } from '../interfaces/global';
@@ -9,6 +12,7 @@ import { IReducers } from '../interfaces/global';
 import enthusiasm from './reducers/enthusiasmReducer';
 import auth from './reducers/authReducer';
 import saga from './reducers/sagaReducer';
+import notification from './reducers/notificationReducer';
 
 import rootSaga from './actions';
 
@@ -17,14 +21,15 @@ const devToolsAvailable = window['__REDUX_DEVTOOLS_EXTENSION__'] !== undefined;
 
 const loggers = createLogger({
   // ...options
-  // level, //级别
-  // logger, //console的API
-  // collapsed, //
-  // predicate, //logger的条件
-  duration: true, //打印每个action的持续时间
-  timestamp: true //打印每个action的时间戳
-  // transformer = state => state, //在打印之前转换state
-  // actionTransformer = actn => actn, //在打印之前转换action
+  // level, // 级别
+  // logger, // console的API
+  // collapsed, // 是否折叠日志
+  // predicate, // logger的条件
+  duration: true, // 打印每个action的持续时间
+  timestamp: true, // 打印每个action的时间戳
+  stateTransformer: state => state, // 在打印之前转换state
+  actionTransformer: action => action, // 在打印之前转换action
+  errorTransformer: error => error // 在打印前转换error
 });
 
 /** Store constructor options */
@@ -35,41 +40,8 @@ interface Options<S> extends EnhancerOptions {
   enhancers?: Function[];
   /** Intial store state */
   initialState?: DeepPartial<S>;
-  /** Optional middlewares */
+  /** Optional Middleware */
   middleware?: Middleware[];
-}
-
-// Test the state default
-const initState: IReducers = {
-  enthusiasm: {
-    name: 'typeScript',
-    enthusiasmLevel: 4
-  },
-  auth: {
-    isSignIn: false,
-    userInfo: {
-      id: 0,
-      phone: '',
-      roles: [],
-      status: '',
-      username: '',
-    },
-    token: {
-      access_token: '',
-      token_type: '',
-      refresh_token: '',
-      expires_in: '',
-      scope: '',
-      jti: ''
-    }
-  },
-  saga: 0
-};
-
-const authToken = localStorage.getItem('authToken');
-
-if (authToken) {
-  initState.auth['token'] = JSON.parse(authToken);
 }
 
 /**
@@ -77,13 +49,7 @@ if (authToken) {
  * @param options Options to construct store with as well
  * @return Redux store instance
  */
-function configureStore<S>({
-                             enhancers: baseEnhancers = [],
-                             reducer,
-                             initialState,
-                             middleware: baseMiddleware = [],
-                             ...config
-                           }: Options<S>) {
+function configureStore<S>({ enhancers: baseEnhancers = [], reducer, initialState, middleware: baseMiddleware = [], ...config }: Options<S>) {
   let middleware = baseMiddleware;
 
   // Add redux-logger middleware in development when there's no Redux DevTools
@@ -99,18 +65,32 @@ function configureStore<S>({
     : createStore(reducer, compose(...enhancers));
 }
 
-const createReducer = createReducerCreator<IReducers>({
+const persistAuthConfig = {
+  key: 'auth',
+  storage,
+  blacklist: ['userInfo']
+};
+
+const persistRootConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['enthusiasm']
+};
+
+const createReducer = createReducerCreator<IReducers>(persistRootConfig, {
   enthusiasm,
-  auth,
-  saga
+  auth: persistReducer(persistAuthConfig, auth),
+  saga,
+  notification
 });
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
   reducer: createReducer(),
-  initialState: initState,
   middleware: [sagaMiddleware]
 });
+
+export const persist = persistStore(store);
 
 sagaMiddleware.run(rootSaga);

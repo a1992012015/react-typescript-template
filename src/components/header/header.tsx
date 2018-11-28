@@ -21,7 +21,7 @@ interface IProps {
 }
 
 class Header extends Component<IProps, object> {
-  componentDidMount(): void {
+  componentDidMount() {
     const { dispatch, auth } = this.props;
     if (auth.token.access_token) {
       dispatch({

@@ -1,9 +1,9 @@
 import { INCREMENT, DECREMENT } from '../action-type/SagaType';
-import { SagaTestAction } from '../actions/SagaAction';
+import { SagaAction } from '../actions/SagaAction';
 
-const sagaTestInit: number = 0;
+const sagaInit: number = 0;
 
-export default function counter(state: number = sagaTestInit, action: SagaTestAction): number {
+export default function SagaReducer(state: number = sagaInit, action: SagaAction): number {
   switch (action.type) {
     case INCREMENT:
       return state + 1;

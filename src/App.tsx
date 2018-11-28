@@ -1,16 +1,34 @@
 import React, { Component } from 'react';
+import Loadable from 'react-loadable';
 import { Route } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
 
 import SwitchDefault from './components/switchDefault';
-import Home from './page/home/home';
-import Enthusiasm from './page/enthusiasm/enthusiasm';
-import Saga from './page/saga/saga';
-import Error from './page/error/error';
-
+import LoadingComponent from './components/loadingComponent';
 import Header from './components/header/header';
+import Notification from './components/notification';
 
 import styles from './App.module.scss';
+
+const Home = Loadable({
+  loader: () => import('./page/home/home'),
+  loading: LoadingComponent
+});
+
+const Enthusiasm = Loadable({
+  loader: () => import('./page/enthusiasm/enthusiasm'),
+  loading: LoadingComponent
+});
+
+const Saga = Loadable({
+  loader: () => import('./page/saga/saga'),
+  loading: LoadingComponent
+});
+
+const Error = Loadable({
+  loader: () => import('./page/error/error'),
+  loading: LoadingComponent
+});
 
 class App extends Component {
   render() {
@@ -24,6 +42,7 @@ class App extends Component {
           <Route exact={true} path='/saga' component={Saga}/>
           <Route exact={true} path='/error' component={Error}/>
         </SwitchDefault>
+        <Notification/>
       </section>
     );
   }

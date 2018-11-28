@@ -1,3 +1,5 @@
+import { PersistPartial } from 'redux-persist';
+
 import { IAuthSore } from './authApi';
 
 export interface IEnthusiasm {
@@ -5,8 +7,14 @@ export interface IEnthusiasm {
   enthusiasmLevel: number;
 }
 
+export interface INotification {
+  open: boolean;
+  message: string;
+}
+
 export interface IReducers {
   enthusiasm: IEnthusiasm;
-  auth: IAuthSore;
+  auth: IAuthSore & PersistPartial;
   saga: number;
+  notification: INotification;
 }

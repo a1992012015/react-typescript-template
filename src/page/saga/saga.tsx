@@ -13,22 +13,29 @@ interface IProps {
 
 class Saga extends Component<IProps> {
   onIncrement = () => {
-    // this.props.getAges(3);           // 发起action，传入参数
     const { dispatch } = this.props;
-    console.log('onIncrement');
     dispatch({ type: 'INCREMENT' });
   };
 
   onDecrement = () => {
     const { dispatch } = this.props;
-    console.log('onDecrement');
     dispatch({ type: 'DECREMENT' });
   };
 
   onIncrementAsync = () => {
     const { dispatch } = this.props;
-    console.log('onIncrementAsync');
     dispatch({ type: 'INCREMENT_ASYNC' });
+  };
+
+  openNotification = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'START_NOTIFICATION',
+      payload: {
+        time: 3000,
+        message: 'Hello World!!!!!!!'
+      }
+    });
   };
 
   render() {
@@ -44,6 +51,9 @@ class Saga extends Component<IProps> {
           </Button>
           <Button variant="contained" color="primary" onClick={this.onDecrement}>
             Decrement
+          </Button>
+          <Button variant="contained" color="primary" onClick={this.openNotification}>
+            openNotification
           </Button>
         </div>
         <div className={styles['saga-text']}>

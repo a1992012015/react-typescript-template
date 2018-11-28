@@ -56,19 +56,32 @@ function saveInfo(option: IInfo): ISaveInfo {
   };
 }
 
+// 删除用户信息
+function deletedInfo(): IDeleteInfo {
+  return {
+    type: DELETE_INFO,
+  };
+}
+
 // 异步任务 - 获取用户信息
 function* getUserInfo() {
-  console.log('getUserInfo');
-  const data = yield call(getUserInfoApi);
-  yield put(saveInfo(data));
+  try {
+    const data = yield call(getUserInfoApi);
+    yield put(saveInfo(data));
+  } catch (e) {
+    yield put(deletedInfo());
+  }
 }
 
 // 异步任务 - 获取用户token并且保存到store
 function* getAuthToken(action: ISignIn) {
-  console.log('getAuthToken');
-  const data = yield call(getAuthTokenApi, action.payload);
-  yield put(saveToken(data));
-  yield call(getUserInfo);
+  try {
+    const data = yield call(getAuthTokenApi, action.payload);
+    yield put(saveToken(data));
+    yield call(getUserInfo);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // 开始异步 - 登陆任务

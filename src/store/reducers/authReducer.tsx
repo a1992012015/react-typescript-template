@@ -21,17 +21,15 @@ const enthusiasmInit: IAuthSore = {
   }
 };
 
-export default function Enthusiasm(state: IAuthSore = enthusiasmInit, action: AuthAction): IAuthSore {
+export default function AuthReducer(state: IAuthSore = enthusiasmInit, action: AuthAction): IAuthSore {
   switch (action.type) {
     case SAVE_INFO:
       Object.assign(state, action.payload);
-      localStorage.setItem('authToken', JSON.stringify(state.token));
       return { ...state };
     case SAVE_TOKEN:
       state['token'] = action.payload.token;
       return { ...state };
     case DELETE_INFO:
-      localStorage.removeItem('authToken');
       return enthusiasmInit;
     default:
       return state;

@@ -1,6 +1,3 @@
-import React from 'react';
-import { Snackbar } from '@material-ui/core';
-
 // 名字转换颜色值
 export const avatarColor = (name: string): string => {
   let hash = 0;
@@ -32,18 +29,4 @@ export const hexToRgb = (hex: string): string => {
   });
 
   return 'rgb(' + rgb.join(',') + ')';
-};
-
-// 全局消息提示
-export const openNotificationWithIcon = (flag: boolean) => {
-  return (
-    <Snackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={flag}
-      ContentProps={{
-        'aria-describedby': 'message-id'
-      }}
-      message={<span id="message-id">I love snacks</span>}
-    />
-  );
 };

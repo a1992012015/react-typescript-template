@@ -3,10 +3,10 @@
 .header {
   display: flex;
   justify-content: space-between;
-  min-width: $min-view-width;
   max-width: $max-view-width;
   width: 100%;
   margin: 0 auto;
+  padding: 0 !important;
 
   .navigation {
     display: flex;

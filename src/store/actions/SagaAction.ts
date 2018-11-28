@@ -10,7 +10,7 @@ interface IDecrement {
   type: DECREMENT;
 }
 
-export type SagaTestAction = IIncrement | IDecrement;
+export type SagaAction = IIncrement | IDecrement;
 
 function increment(): IIncrement {
   return {
@@ -26,7 +26,6 @@ function decrement(): IDecrement {
 
 // Our worker Saga: 将执行异步的 increment 任务
 function* incrementAsync() {
-  console.log('incrementAsync');
   yield delay(1000);
   yield put(increment());
 }

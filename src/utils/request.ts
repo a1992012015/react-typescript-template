@@ -1,9 +1,7 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { store } from '../store';
-import { DELETE_INFO } from '../store/action-type/AuthType';
-import { openNotificationWithIcon } from './common';
 
-const errorHandle = (error: any) => {
+const errorHandle = (error: AxiosError) => {
   const { response } = error;
   let msg;
   let statusCode;
@@ -11,25 +9,12 @@ const errorHandle = (error: any) => {
     const { data, statusText } = response;
     statusCode = response.status;
 
-    if (statusCode === 401) {
-      localStorage.removeItem('authToken');
-      store.dispatch({
-        type: DELETE_INFO
-      });
-      openNotificationWithIcon(true);
-    }
-
     if (data instanceof Object) {
       msg = data.message || statusText;
     } else {
       msg = data;
     }
   } else {
-    localStorage.removeItem('authToken');
-    store.dispatch({
-      type: DELETE_INFO
-    });
-
     statusCode = 600;
     msg = error.message || 'Network Error';
   }
