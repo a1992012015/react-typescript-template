@@ -8,8 +8,8 @@ import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import UserState from './userState/userState';
 import NavigationList from './navigationList/navigationList';
 
-import { IAuthSore, ISignInApi } from '../../interfaces/authApi';
-import { IReducers } from '../../interfaces/global';
+import { IAuthSore, ISignInApi } from '@interfaces/authApi';
+import { IReducers } from '@interfaces/global';
 import styles from './header.module.scss';
 
 interface IProps {

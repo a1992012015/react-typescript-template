@@ -1,15 +1,15 @@
-import { DeepPartial, Middleware, Reducer, applyMiddleware, createStore } from 'redux';
+import { DeepPartial, Middleware, Reducer, applyMiddleware, createStore, ReducersMapObject } from 'redux';
 import { EnhancerOptions, composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 
-
 import createReducerCreator from './reducers';
-import { IReducers } from '../interfaces/global';
+import { IReducers, IStore } from '@interfaces/global';
 
-import enthusiasm from './reducers/enthusiasmReducer';
 import auth from './reducers/authReducer';
 import saga from './reducers/sagaReducer';
 import notification from './reducers/notificationReducer';
@@ -60,9 +60,10 @@ function configureStore<S>({ enhancers: baseEnhancers = [], reducer, initialStat
   // Create store instance
   const enhancers = [...baseEnhancers, applyMiddleware(...middleware)];
   const compose = composeWithDevTools(config);
-  return initialState !== undefined
-    ? createStore(reducer, initialState, compose(...enhancers))
-    : createStore(reducer, compose(...enhancers));
+  return initialState !== undefined ?
+    createStore(reducer, initialState, compose(...enhancers))
+    :
+    createStore(reducer, compose(...enhancers));
 }
 
 const persistAuthConfig = {
@@ -71,26 +72,40 @@ const persistAuthConfig = {
   blacklist: ['userInfo']
 };
 
-const persistRootConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['enthusiasm']
+const persistNotificationConfig = {
+  key: 'notification',
+  storage
 };
 
-const createReducer = createReducerCreator<IReducers>(persistRootConfig, {
-  enthusiasm,
+export const history = createBrowserHistory();
+
+export const createReducer = createReducerCreator<IReducers>(history, {
   auth: persistReducer(persistAuthConfig, auth),
   saga,
-  notification
+  notification: persistReducer(persistNotificationConfig, notification),
 });
 
 const sagaMiddleware = createSagaMiddleware();
 
-export const store = configureStore({
+export const store: IStore = configureStore({
   reducer: createReducer(),
-  middleware: [sagaMiddleware]
+  middleware: [sagaMiddleware, routerMiddleware(history)]
 });
 
+store.injectedReducers = {};
+
 export const persist = persistStore(store);
+
+export function injectReducer(reducer: Partial<ReducersMapObject<IReducers>>) {
+  if (store.injectedReducers) {
+    if (Reflect.has(store.injectedReducers, Object.keys(reducer)[0])) {
+      return;
+    }
+    console.log(reducer);
+    Object.assign(store.injectedReducers, reducer);
+    console.log(store.injectedReducers);
+    store.replaceReducer(createReducer(store.injectedReducers));
+  }
+}
 
 sagaMiddleware.run(rootSaga);

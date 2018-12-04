@@ -1,8 +1,8 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 
 import { SAVE_INFO, DELETE_INFO, SIGN_IN, SAVE_TOKEN } from '../action-type/AuthType';
-import { getAuthTokenApi, getUserInfoApi } from '../../services/auth';
-import { ISignInApi, IToken, IInfo } from '../../interfaces/authApi';
+import { getAuthTokenApi, getUserInfoApi } from '@services/auth';
+import { ISignInApi, IToken, IInfo } from '@interfaces/authApi';
 
 // 提交用户token
 interface ISaveToken {

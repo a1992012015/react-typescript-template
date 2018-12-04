@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Avatar, Button, IconButton, Menu, MenuItem } from '@material-ui/core';
 
-import { IAuthSore, ISignInApi } from '../../../interfaces/authApi';
+import { IAuthSore, ISignInApi } from '@interfaces/authApi';
 
 import styles from './userState.module.scss';
 

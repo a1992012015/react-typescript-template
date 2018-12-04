@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { Dispatch } from 'redux';
+import { Dispatch, compose } from 'redux';
 import { connect } from 'react-redux';
+import { persistReducer } from 'redux-persist';
 import { Typography, Button } from '@material-ui/core';
+import storage from 'redux-persist/es/storage';
 
-import { decrementEnthusiasm, incrementEnthusiasm } from '../../store/actions/EnthusiasmAction';
-import { IReducers, IEnthusiasm } from '../../interfaces/global';
+import { decrementEnthusiasm, incrementEnthusiasm } from '@store/actions/EnthusiasmAction';
+import { IReducers, IEnthusiasm } from '@interfaces/global';
+
+import injectReducer from '@utils/injectReducer';
+import enthusiasm from '@store/reducers/enthusiasmReducer';
 
 import styles from './enthusiasm.module.scss';
 
@@ -33,10 +38,8 @@ class Enthusiasm extends Component<IProps, object> {
     const { enthusiasm: { enthusiasmLevel, name } } = this.props;
     return (
       <div className={styles['enthusiasm']}>
-        <Typography variant="h3" gutterBottom classes={{
-          h3: styles['enthusiasm-h3']
-        }}>
-          Hello {`${name}${this.getExclamationMarks(enthusiasmLevel)}`}
+        <Typography variant="h3" gutterBottom classes={{ h3: styles['enthusiasm-h3'] }}>
+          {`Hello ${name}${this.getExclamationMarks(enthusiasmLevel)}`}
         </Typography>
 
         <div className={styles['enthusiasm-click']}>
@@ -52,4 +55,25 @@ class Enthusiasm extends Component<IProps, object> {
   }
 }
 
-export default connect(({ enthusiasm }: IReducers) => ({ enthusiasm }))(Enthusiasm);
+const mapStateToProps = (state: IReducers) => ({ enthusiasm: state.enthusiasm });
+
+const withConnect = connect(
+  mapStateToProps
+);
+
+const persistEnthusiasmConfig = {
+  key: 'enthusiasm',
+  storage,
+  version: 10
+};
+
+const reducer = {
+  enthusiasm: persistReducer(persistEnthusiasmConfig, enthusiasm)
+};
+
+const withReducer = injectReducer<IReducers>(reducer);
+
+export default compose(
+  withReducer,
+  withConnect
+)(Enthusiasm);

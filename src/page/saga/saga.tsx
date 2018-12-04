@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 
-import { IReducers } from '../../interfaces/global';
+import { IReducers } from '@interfaces/global';
 import styles from './saga.module.scss';
 
 interface IProps {

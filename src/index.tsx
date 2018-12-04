@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 
 import App from './App';
-import { store, persist } from './store';
+import { store, persist, history } from '@store';
 import * as serviceWorker from './serviceWorker';
 
 import './index.scss';
@@ -16,9 +17,9 @@ window['__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__'] = true;
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persist}>
-      <Router>
+      <ConnectedRouter history={history}>
         <Route component={App}/>
-      </Router>
+      </ConnectedRouter>
     </PersistGate>
   </Provider>,
   document.getElementById('root')

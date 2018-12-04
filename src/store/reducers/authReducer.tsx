@@ -1,4 +1,4 @@
-import { IAuthSore } from '../../interfaces/authApi';
+import { IAuthSore } from '@interfaces/authApi';
 import { DELETE_INFO, SAVE_INFO, SAVE_TOKEN } from '../action-type/AuthType';
 import { AuthAction } from '../actions/AuthAction';
 

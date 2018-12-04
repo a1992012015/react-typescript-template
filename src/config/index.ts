@@ -1,20 +1,21 @@
 import dev from './config-dev';
-import prof from './config-prod';
+import prod from './config-prod';
 
 interface IConfig {
   Oauth: string;
   Mall: string;
+  env?: '';
 }
 
-let config: IConfig = {
+const config: IConfig = {
   Oauth: '',
   Mall: ''
 };
 
 if (process.env.NODE_ENV === 'development') {
-  config = Object.assign(config, dev);
+  Object.assign(config, dev);
 } else if (process.env.NODE_ENV === 'production') {
-  config = Object.assign(config, prof);
+  Object.assign(config, prod);
 }
 
 export default config;

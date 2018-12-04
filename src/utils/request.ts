@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { store } from '../store';
+import { store } from '@store';
 
 const errorHandle = (error: AxiosError) => {
   const { response } = error;

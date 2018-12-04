@@ -1,6 +1,6 @@
 import { OPEN_NOTIFICATION, CLOSE_NOTIFICATION } from '../action-type/NotificationType';
 import { notificationAction } from '../actions/NotificationAction';
-import { INotification } from '../../interfaces/global';
+import { INotification } from '@interfaces/global';
 
 const notificationInit: INotification = {
   open: false,

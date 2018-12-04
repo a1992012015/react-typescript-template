@@ -1,4 +1,4 @@
-import { IEnthusiasm } from '../../interfaces/global';
+import { IEnthusiasm } from '@interfaces/global';
 import { DECREMENT_ENTHUSIASM, INCREMENT_ENTHUSIASM } from '../action-type/EnthusiasmType';
 import { EnthusiasmAction } from '../actions/EnthusiasmAction';
 

@@ -1,7 +1,9 @@
 import { take, put } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
+import { push } from 'connected-react-router';
+
 import { OPEN_NOTIFICATION, CLOSE_NOTIFICATION } from '../action-type/NotificationType';
-import { INotification } from '../../interfaces/global';
+import { INotification } from '@interfaces/global';
 
 interface IOpenNotification {
   type: OPEN_NOTIFICATION;
@@ -35,6 +37,7 @@ function* notification() {
       yield put(openNotification({ open: true, message: action.payload.message }));
       yield delay(action.payload.time);
       yield put(closeNotification());
+      yield put(push('/'));
     }
   } catch (e) {
     console.log(e);
