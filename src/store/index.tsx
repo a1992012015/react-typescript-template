@@ -1,10 +1,10 @@
 import { DeepPartial, Middleware, Reducer, applyMiddleware, createStore, ReducersMapObject } from 'redux';
 import { EnhancerOptions, composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-import { createLogger } from 'redux-logger';
-import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
+import { createLogger } from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 
 import createReducerCreator from './reducers';
@@ -72,17 +72,12 @@ const persistAuthConfig = {
   blacklist: ['userInfo']
 };
 
-const persistNotificationConfig = {
-  key: 'notification',
-  storage
-};
-
 export const history = createBrowserHistory();
 
 export const createReducer = createReducerCreator<IReducers>(history, {
   auth: persistReducer(persistAuthConfig, auth),
   saga,
-  notification: persistReducer(persistNotificationConfig, notification),
+  notification,
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -94,18 +89,17 @@ export const store: IStore = configureStore({
 
 store.injectedReducers = {};
 
-export const persist = persistStore(store);
-
 export function injectReducer(reducer: Partial<ReducersMapObject<IReducers>>) {
   if (store.injectedReducers) {
     if (Reflect.has(store.injectedReducers, Object.keys(reducer)[0])) {
       return;
     }
-    console.log(reducer);
     Object.assign(store.injectedReducers, reducer);
-    console.log(store.injectedReducers);
     store.replaceReducer(createReducer(store.injectedReducers));
+    persist = persistStore(store);
   }
 }
+
+export let persist = persistStore(store);
 
 sagaMiddleware.run(rootSaga);

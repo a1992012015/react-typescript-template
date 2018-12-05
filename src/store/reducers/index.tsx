@@ -12,8 +12,6 @@ import { IReducers } from '@interfaces/global';
  */
 export default function createReducerCreator<S>(history: History, reducers: Partial<ReducersMapObject<S>>) {
   return function createReducer(extraReducers: Partial<ReducersMapObject<S>> = {}) {
-    console.log(reducers);
-    console.log(extraReducers);
     // tslint:disable-next-line:prefer-object-spread
     return combineReducers<S>(
       Object.assign(

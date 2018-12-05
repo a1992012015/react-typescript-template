@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Avatar, Button, IconButton, Menu, MenuItem } from '@material-ui/core';
 
 import { IAuthSore, ISignInApi } from '@interfaces/authApi';
+import { avatarColor } from '@utils/common';
 
 import styles from './userState.module.scss';
 
@@ -69,13 +70,20 @@ class UserState extends Component<IProps, IState> {
     const { anchorEl } = this.state;
     const { auth } = this.props;
     const isMenuOpen = Boolean(anchorEl);
-    return (
-      <IconButton aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleMenuState}>
-        <Avatar>{auth.userInfo.username.charAt(0).toLocaleUpperCase()}</Avatar>
-      </IconButton>
-    );
+    if (auth.userInfo.username) {
+      const nameStyle = {
+        background: avatarColor(auth.userInfo.username)
+      };
+      return (
+        <IconButton aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                    aria-haspopup="true"
+                    onClick={this.handleMenuState}>
+          <Avatar style={nameStyle}>{auth.userInfo.username.charAt(0).toLocaleUpperCase()}</Avatar>
+        </IconButton>
+      );
+    } else {
+      return null;
+    }
   };
 
   public render() {
@@ -99,7 +107,7 @@ class UserState extends Component<IProps, IState> {
               onClose={this.handleMenuClose}>
           <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
           <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-          <MenuItem  onClick={this.signOut}>Logout</MenuItem>
+          <MenuItem onClick={this.signOut}>Logout</MenuItem>
         </Menu>
       </div>
     );

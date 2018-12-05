@@ -18,7 +18,7 @@ export interface IReducers {
   enthusiasm?: IEnthusiasm & PersistPartial;
   auth: IAuthSore & PersistPartial;
   saga: number;
-  notification: INotification & PersistPartial;
+  notification: INotification;
   router: RouterState;
 }
 
