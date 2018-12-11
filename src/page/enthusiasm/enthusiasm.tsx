@@ -7,6 +7,7 @@ import storage from 'redux-persist/es/storage';
 
 import { decrementEnthusiasm, incrementEnthusiasm } from '@store/actions/EnthusiasmAction';
 import { IReducers, IEnthusiasm } from '@interfaces/global';
+import { postList } from '@services/auth';
 
 import injectReducer from '@utils/injectReducer';
 import enthusiasm from '@store/reducers/enthusiasmReducer';
@@ -34,6 +35,12 @@ class Enthusiasm extends Component<IProps, object> {
     dispatch(decrementEnthusiasm());
   };
 
+  testApi = () => {
+    postList().then(res => {
+      console.log(res);
+    })
+  };
+
   render() {
     const { enthusiasm: { enthusiasmLevel, name } } = this.props;
     return (
@@ -48,6 +55,9 @@ class Enthusiasm extends Component<IProps, object> {
           </Button>
           <Button className={styles['enthusiasm-button']} variant="contained" color="secondary" onClick={this.remove}>
             减少
+          </Button>
+          <Button className={styles['enthusiasm-button']} variant="contained" color="secondary" onClick={this.testApi}>
+            API
           </Button>
         </div>
       </div>

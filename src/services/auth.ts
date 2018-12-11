@@ -11,3 +11,5 @@ export const getAuthTokenApi = (data: ISignInApi) => request.post(`${config.Oaut
 });
 
 export const getUserInfoApi = () => authRequest.get(`${config.Mall}/users`);
+
+export const postList = () => authRequest.post(`/api/list`, {name: 'Garnet'});
