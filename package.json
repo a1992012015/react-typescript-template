@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start react-scripts",
-    "build": "react-app-rewired build react-scripts",
+    "build": "react-app-rewired build react-scripts && mv build/* ../",
     "test": "react-app-rewired test react-scripts",
     "eject": "react-scripts eject"
   },
