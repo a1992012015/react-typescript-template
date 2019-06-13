@@ -10,7 +10,7 @@ export default class extends Component {
         <img src={logo} className={styles['home-logo']} alt="logo"/>
         <p>Edit <code>src/App.js</code> and save to reload.</p>
         <a className={styles['home-link']} href="https://react.docschina.org/" target="_blank" rel="noopener noreferrer">
-          Learn React
+          Learn React test branch
         </a>
       </div>
     );
