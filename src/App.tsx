@@ -25,6 +25,11 @@ const Saga = Loadable({
   loading: LoadingComponent
 });
 
+const Decorator = Loadable({
+  loader: () => import('./page/decorator/decorator'),
+  loading: LoadingComponent
+});
+
 const Error = Loadable({
   loader: () => import('./page/error/error'),
   loading: LoadingComponent
@@ -40,6 +45,7 @@ class App extends Component {
           <Route exact={true} path='/' component={Home}/>
           <Route exact={true} path='/enthusiasm' component={Enthusiasm}/>
           <Route exact={true} path='/saga' component={Saga}/>
+          <Route exact={true} path='/decorator' component={Decorator}/>
           <Route exact={true} path='/error' component={Error}/>
         </SwitchDefault>
         <Notification/>

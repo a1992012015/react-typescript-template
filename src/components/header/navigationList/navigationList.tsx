@@ -37,6 +37,11 @@ class NavigationList extends Component<IProps, IState> {
           path: '/saga',
           name: 'Saga',
           label: '/saga'
+        },
+        {
+          path: '/decorator',
+          name: 'Decorator',
+          label: '/decorator'
         }
       ]
     };
