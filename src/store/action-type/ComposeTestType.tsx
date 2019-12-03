@@ -1,3 +1,0 @@
-export const COUNT_ADDITION = 'COUNT_ADDITION';
-export type COUNT_ADDITION = typeof COUNT_ADDITION;
-
