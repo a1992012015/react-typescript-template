@@ -1,5 +1,5 @@
-const { override, fixBabelImports, addLessLoader, } = require('customize-cra');
-const rewireReactHotLoader = require('react-app-rewire-hot-loader');
+const { override, fixBabelImports, addLessLoader } = require('customize-cra');
+// const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 
 const bgColor = '#f2f6ff';
 const defaultColor = '#3E80FB';
@@ -29,9 +29,9 @@ const option = [
 ];
 
 // 热更新
-if (process.env.NODE_ENV === 'development') {
-  option.push((config, env) => rewireReactHotLoader(config, env));
-}
+// if (process.env.NODE_ENV === 'development') {
+//   option.push((config, env) => rewireReactHotLoader(config, env));
+// }
 
 /* config-overrides-overrides.js */
 module.exports = override(...option);

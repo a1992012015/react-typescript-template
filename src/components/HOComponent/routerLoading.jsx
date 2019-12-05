@@ -1,17 +1,22 @@
 import React from 'react';
 import { Spin } from 'antd';
 
-const RouterLoading = ({ isLoading, error }) => {
+/**
+ * 异步路由加载组建
+ * @param isLoading
+ * @param error
+ * @returns {*}
+ * @constructor
+ */
+export const RouterLoading = ({ isLoading, error }) => {
   // Handle the loading state
   return (
     <div className='loading-spin'>
       {isLoading ? (
-        <Spin size='large' />
+        <Spin size='large'/>
       ) : error ? (
         <div>Sorry, there was a problem loading the page.</div>
       ) : null}
     </div>
   );
 };
-
-export default RouterLoading;

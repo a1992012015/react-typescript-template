@@ -1,8 +1,8 @@
-import { combineReducers, } from 'redux';
-import { createBrowserHistory, } from 'history';
-import { connectRouter, } from 'connected-react-router';
+import { combineReducers } from 'redux';
+import { createBrowserHistory } from 'history';
+import { connectRouter } from 'connected-react-router';
 
-import { authReducer, } from './authReducer';
+import { authReducer } from './authReducer';
 
 const history = createBrowserHistory();
 
@@ -19,8 +19,8 @@ function createReducerCreator(reducers) {
           router: connectRouter(history),
         },
         reducers,
-        extraReducers
-      )
+        extraReducers,
+      ),
     );
   };
 }

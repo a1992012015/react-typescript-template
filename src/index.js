@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, } from 'react-router-dom';
-import { Provider, } from 'react-redux';
-import { PersistGate, } from 'redux-persist/integration/react';
-import { ConnectedRouter, } from 'connected-react-router';
+import { Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { ConnectedRouter } from 'connected-react-router';
 
 import App from './App';
-import { history, persists, store, } from './redux';
+import { history, persists, store } from './redux';
 import * as serviceWorker from './serviceWorker';
 
 import './index.scss';
@@ -19,7 +19,7 @@ ReactDOM.render(
       </ConnectedRouter>
     </PersistGate>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

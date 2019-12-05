@@ -1,12 +1,12 @@
-import { applyMiddleware, combineReducers, createStore, } from 'redux';
-import { composeWithDevTools, } from 'redux-devtools-extension';
-import { persistReducer, persistStore, } from 'redux-persist';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistReducer, persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware, } from 'connected-react-router';
+import { routerMiddleware } from 'connected-react-router';
 import storage from 'redux-persist/lib/storage';
 
-import { combineReducer, history, } from './reducers';
-import { rootSaga, } from './sagaWatch';
+import { combineReducer, history } from './reducers';
+import { rootSaga } from './sagaWatch';
 
 /**
  * Create a Redux store complete with potential development settings
@@ -17,7 +17,7 @@ function configureStore(options) {
   const { enhancers = [], reducer, initialState, middleware = [], ...config } = options;
 
   // Create store instance
-  const enhancer = [...enhancers, applyMiddleware(...middleware), ];
+  const enhancer = [...enhancers, applyMiddleware(...middleware)];
   const compose = composeWithDevTools(config);
   if (initialState !== undefined) {
     return createStore(reducer, initialState, compose(...enhancer));
@@ -33,12 +33,12 @@ const rootPersistConfig = {
   key: 'root',
   storage: storage,
   timeout: null,
-  whitelist: ['auth', ],
+  whitelist: ['auth'],
 };
 
 const store = configureStore({
   reducer: persistReducer(rootPersistConfig, combineReducer()),
-  middleware: [sagaMiddleware, routerMiddleware(history), ],
+  middleware: [sagaMiddleware, routerMiddleware(history)],
 });
 
 const persists = persistStore(store);

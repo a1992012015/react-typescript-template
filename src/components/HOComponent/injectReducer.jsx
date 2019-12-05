@@ -9,7 +9,7 @@ import { injectReducer } from '../../redux';
  * @param {function} reducer A reducer that will be injected
  *
  */
-export default function(reducer) {
+export const injectReducerWrap = (reducer) => {
   return WrappedComponent => {
     class ReducerInjector extends Component {
       static WrappedComponent = WrappedComponent;
@@ -20,10 +20,10 @@ export default function(reducer) {
       }
 
       render() {
-        return <WrappedComponent {...this.props} />;
+        return <WrappedComponent {...this.props}/>;
       }
     }
 
     return hoistNonReactStatics(ReducerInjector, WrappedComponent);
   };
-}
+};

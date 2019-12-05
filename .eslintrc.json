@@ -22,7 +22,7 @@
     ],
     "comma-dangle": [
       2,
-      "always"
+      "always-multiline"
     ],
     "comma-spacing": [
       2,

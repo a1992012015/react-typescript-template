@@ -1,4 +1,4 @@
-import { AUTH_CLEAN_INFO, AUTH_SAVE_INFO, } from '../actionTypes/authType';
+import { AUTH_CLEAN_INFO, AUTH_SAVE_INFO } from '../actionTypes/authType';
 
 function cleanAuthAction() {
   return {

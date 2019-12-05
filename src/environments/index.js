@@ -1,7 +1,7 @@
-import { development, } from './environment.development';
-import { production, } from './environment.production';
-import { qa, } from './environment.qa';
-import { dev, } from './environment.dev';
+import { development } from './environment.development';
+import { production } from './environment.production';
+import { qa } from './environment.qa';
+import { dev } from './environment.dev';
 
 const environments = {
   development,

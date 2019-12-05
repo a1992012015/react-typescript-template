@@ -1,43 +1,56 @@
-import React, { Component, } from 'react';
-import Loadable from 'react-loadable';
-import { Route, Redirect, } from 'react-router-dom';
-import { Menu, Icon, } from 'antd';
-import { hot, } from 'react-hot-loader/root';
+import React, { Component } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { Menu, Icon } from 'antd';
 
-import { homeMenu, } from './configs/homeMenuConfig';
-import RouterLoading from './components/HOComponent/routerLoading';
-import SwitchDefault from './components/HOComponent/switchDefault';
+import { homeMenu } from './configs/homeMenuConfig';
+import { loadable } from './components/HOComponent/loadable';
+import { wrap } from './components/HOComponent/wrap';
+import { SwitchDefault } from './components/HOComponent/switchDefault';
 
 import styles from './App.module.scss';
 
-const Home = Loadable({
-  loader: () => import('./pages/Home/Home'),
-  loading: RouterLoading,
-});
+const Home = loadable(() => import('./pages/Home/Home'));
+
+const Test = loadable(() => import('./pages/Test/Test'));
 
 class App extends Component {
-  handleClick = (e) => {
-    console.log('click', e);
+  constructor(props) {
+    super(props);
+    this.state = {
+      defaultPath: this.getRouterPath(),
+    };
+  }
+
+  handleClick = (path) => {
+    const { history } = this.props;
+    history.push({ pathname: path.key });
+  };
+
+  getRouterPath = () => {
+    const { location } = this.props;
+    const path = homeMenu.filter(i => location.pathname.includes(i.key));
+    return path.length ? path[0].key : homeMenu[0].key;
   };
 
   render() {
+    const { defaultPath } = this.state;
+    const { history } = this.props;
     return (
       <div className={styles.App}>
         <Menu
           onClick={this.handleClick}
           className={styles.AppMenu}
-          defaultSelectedKeys={homeMenu[0].key}
+          defaultSelectedKeys={defaultPath}
           mode='inline'
         >
           {this.renderHomeMenu()}
         </Menu>
 
-        <div className={styles.AppContainer}>
-          <SwitchDefault>
-            <Route exact={true} path='/home' component={Home}/>
-            <Redirect from='/' to='home'/>
-          </SwitchDefault>
-        </div>
+        <SwitchDefault history={history}>
+          <Route exact={true} path='/home' component={wrap(Home)}/>
+          <Route exact={true} path='/test' component={wrap(Test)}/>
+          <Redirect from='/' to='home'/>
+        </SwitchDefault>
       </div>
     );
   }
@@ -54,4 +67,4 @@ class App extends Component {
   };
 }
 
-export default process.env.NODE_ENV === 'development' ? hot(App) : App;
+export default App;
