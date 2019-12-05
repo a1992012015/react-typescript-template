@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, } from 'react';
 import Loadable from 'react-loadable';
-import { Route, Redirect } from 'react-router-dom';
-import { Menu, Icon } from 'antd';
-import { hot } from 'react-hot-loader/root'
+import { Route, Redirect, } from 'react-router-dom';
+import { Menu, Icon, } from 'antd';
+import { hot, } from 'react-hot-loader/root';
 
-import { homeMenu } from './configs/homeMenuConfig';
+import { homeMenu, } from './configs/homeMenuConfig';
 import RouterLoading from './components/HOComponent/routerLoading';
 import SwitchDefault from './components/HOComponent/switchDefault';
 
@@ -12,12 +12,12 @@ import styles from './App.module.scss';
 
 const Home = Loadable({
   loader: () => import('./pages/Home/Home'),
-  loading: RouterLoading
+  loading: RouterLoading,
 });
 
 class App extends Component {
   handleClick = (e) => {
-    console.log('click ', e);
+    console.log('click', e);
   };
 
   render() {
@@ -27,7 +27,7 @@ class App extends Component {
           onClick={this.handleClick}
           className={styles.AppMenu}
           defaultSelectedKeys={homeMenu[0].key}
-          mode="inline"
+          mode='inline'
         >
           {this.renderHomeMenu()}
         </Menu>
@@ -54,4 +54,4 @@ class App extends Component {
   };
 }
 
-export default process.env.NODE_ENV === "development" ? hot(App) : App;
+export default process.env.NODE_ENV === 'development' ? hot(App) : App;

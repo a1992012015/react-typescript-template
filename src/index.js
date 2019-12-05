@@ -15,7 +15,7 @@ ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persists}>
       <ConnectedRouter history={history}>
-        <Route component={App} />
+        <Route component={App}/>
       </ConnectedRouter>
     </PersistGate>
   </Provider>,
