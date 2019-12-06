@@ -1,5 +1,5 @@
 export const development = {
-  authApi: 'http://oauth-bmark.tianfutv.com',
-  mallApi: 'http://mall-bmark.tianfutv.com',
+  authApi: 'https://oauth-bmark.tianfutv.com',
+  mallApi: 'https://mall-bmark.tianfutv.com',
   env: 'development',
 };

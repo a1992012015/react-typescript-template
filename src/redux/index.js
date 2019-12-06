@@ -7,6 +7,8 @@ import storage from 'redux-persist/lib/storage';
 
 import { combineReducer, history } from './reducers';
 import { rootSaga } from './sagaWatch';
+import { axiosMiddleware } from './middleware/axiosMiddleware';
+import { middlewareOptions } from '../services/requestService';
 
 /**
  * Create a Redux store complete with potential development settings
@@ -38,7 +40,7 @@ const rootPersistConfig = {
 
 const store = configureStore({
   reducer: persistReducer(rootPersistConfig, combineReducer()),
-  middleware: [sagaMiddleware, routerMiddleware(history)],
+  middleware: [axiosMiddleware(middlewareOptions), sagaMiddleware, routerMiddleware(history)],
 });
 
 const persists = persistStore(store);

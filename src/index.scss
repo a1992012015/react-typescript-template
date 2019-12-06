@@ -24,7 +24,8 @@ code {
   align-self: stretch;
   flex-direction: row;
   position: relative;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /**
