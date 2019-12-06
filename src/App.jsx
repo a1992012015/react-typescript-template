@@ -11,7 +11,9 @@ import styles from './App.module.scss';
 
 const Home = loadable(() => import('./pages/Home/Home'));
 
-const Test = loadable(() => import('./pages/Test/Test'));
+const Transition = loadable(() => import('./pages/Transition/Transition'));
+
+const Countdown = loadable(() => import('./pages/Countdown/Countdown'));
 
 class App extends Component {
   constructor(props) {
@@ -48,7 +50,8 @@ class App extends Component {
 
         <SwitchDefault history={history}>
           <Route exact={true} path='/home' component={wrap(Home)}/>
-          <Route exact={true} path='/test' component={wrap(Test)}/>
+          <Route exact={true} path='/transition' component={wrap(Transition)}/>
+          <Route exact={true} path='/countdown/:name' component={wrap(Countdown)}/>
           <Redirect from='/' to='home'/>
         </SwitchDefault>
       </div>

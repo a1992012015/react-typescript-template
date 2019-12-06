@@ -5,8 +5,13 @@ const homeMenu = [
     icon: 'mail',
   },
   {
-    name: '测试',
-    key: '/test',
+    name: '路由动画测试',
+    key: '/transition',
+    icon: 'calendar',
+  },
+  {
+    name: '路由匹配测试',
+    key: '/countdown/11',
     icon: 'calendar',
   },
 ];

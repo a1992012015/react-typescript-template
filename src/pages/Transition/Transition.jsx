@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'antd';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import styles from './Test.module.scss';
+import styles from './Transition.module.scss';
 
 export default class extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ export default class extends Component {
           <CSSTransition
             key={num}
             timeout={500}
-            classNames={'fade'}
+            classNames={'forward-from-right'}
             appear={true}
           >
             <div className={styles.square}>{num}</div>

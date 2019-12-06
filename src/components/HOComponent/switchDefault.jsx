@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { pathToRegexp } from 'path-to-regexp';
 
 import { loadable } from './loadable';
 import { wrap } from './wrap';
-import { routerTransition } from '../../configs/routerTransitionConfig';
+import { routerTransition, transitionList } from '../../configs/routerTransitionConfig';
 
 const Error = loadable(() => import('../../pages/Error/Error'));
 
@@ -12,14 +13,14 @@ const Error = loadable(() => import('../../pages/Error/Error'));
  * 默认路由跳转，添加路由跳转动画
  */
 export class SwitchDefault extends Component {
-  DEFAULT_SCENE_CONFIG = {
-    enter: 'from-right',
-    exit: 'to-exit',
-  };
   oldLocation = null;
 
   getSceneConfig = (location) => {
-    return routerTransition[location.pathname] || this.DEFAULT_SCENE_CONFIG;
+    const routerName = Object.keys(routerTransition).find((key) => {
+      return pathToRegexp(key).test(location.pathname);
+    });
+
+    return transitionList[routerTransition[routerName] || 0];
   };
 
   getClassName = () => {
