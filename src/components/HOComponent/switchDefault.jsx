@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { pathToRegexp } from 'path-to-regexp';
@@ -6,13 +6,14 @@ import { pathToRegexp } from 'path-to-regexp';
 import { loadable } from './loadable';
 import { wrap } from './wrap';
 import { routerTransition, transitionList } from '../../configs/routerTransitionConfig';
+import { BaseComponent } from './shouldComponentUpdate';
 
 const Error = loadable(() => import('../../pages/Error/Error'));
 
 /**
  * 默认路由跳转，添加路由跳转动画
  */
-export class SwitchDefault extends Component {
+export class SwitchDefault extends BaseComponent {
   oldLocation = null;
 
   getSceneConfig = (location) => {

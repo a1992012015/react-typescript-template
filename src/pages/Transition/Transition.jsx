@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Button } from 'antd';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
+import { BaseComponent } from '../../components/HOComponent/shouldComponentUpdate';
+
 import styles from './Transition.module.scss';
 
-export default class extends Component {
+export default class extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
+import { BaseComponent } from './shouldComponentUpdate';
 import { injectReducer } from '../../redux';
 
 /**
@@ -11,7 +12,7 @@ import { injectReducer } from '../../redux';
  */
 export const injectReducerWrap = (reducer) => {
   return WrappedComponent => {
-    class ReducerInjector extends Component {
+    class ReducerInjector extends BaseComponent {
       static WrappedComponent = WrappedComponent;
 
       constructor(props) {

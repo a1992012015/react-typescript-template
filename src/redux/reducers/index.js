@@ -11,8 +11,8 @@ const history = createBrowserHistory();
  * @param reducers Reducers map
  * @return function(*=): * creator
  */
-function createReducerCreator(reducers) {
-  return function createReducer(extraReducers = {}) {
+const createReducerCreator = (reducers) => {
+  return (extraReducers = {}) => {
     return combineReducers(
       Object.assign(
         {
@@ -20,10 +20,10 @@ function createReducerCreator(reducers) {
         },
         reducers,
         extraReducers,
-      ),
+      )
     );
   };
-}
+};
 
 const combineReducer = createReducerCreator({
   auth: authReducer,

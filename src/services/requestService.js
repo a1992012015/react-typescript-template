@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fromJS } from 'immutable';
 import qs from 'qs';
 
 import { environment } from '../environments';
@@ -37,14 +38,15 @@ const refreshTokenApi = (refreshToken) => {
 
 const errorHandleRefreshToken = (getState, dispatch, errors) => {
   const { response: { config } } = errors;
-  const { tokens } = getState().auth;
-  if (!isRefreshing && tokens && tokens.refresh_token) {
+  const { auth } = getState();
+  const refreshToken = auth.getIn(['tokens', 'refresh_token']);
+  if (!isRefreshing && refreshToken) {
     isRefreshing = true;
-    refreshTokenApi(tokens.refresh_token).then((response) => {
+    refreshTokenApi(refreshToken).then((response) => {
       isRefreshing = false;
       dispatch(saveTokenAction(response));
       const subscribers = [...refreshSubscribers];
-      subscribers.map(cb => cb(response.access_token));
+      subscribers.map(cb => cb());
       refreshSubscribers = [];
     })
       .catch(() => {
@@ -52,16 +54,15 @@ const errorHandleRefreshToken = (getState, dispatch, errors) => {
         refreshSubscribers = [];
       });
   } else {
-    return Promise.reject(errors);
+    return Promise.reject(fromJS(errors || {}));
   }
 
   return new Promise((resolve, reject) => {
-    refreshSubscribers.push(token => {
+    refreshSubscribers.push(() => {
       // replace the expired token and retry
-      config.headers['Authorization'] = `Bearer ${token}`;
       return defaultRequest(config).then(
-        (response) => resolve(response),
-        (error) => reject(error),
+        (response) => resolve(fromJS(response || {})),
+        (error) => reject(fromJS(error || {})),
       );
     });
   });
@@ -76,20 +77,24 @@ const middlewareOptions = [
           success: ({ getState, dispatch, getSourceAction }, request) => {
             console.log('%c================defaultRequest success================', 'color: red');
             console.log('request', request);
-            const { auth: { tokens } } = getState();
-            if (tokens && tokens.access_token) {
+            const { auth } = getState();
+            const accessToken = auth.getIn(['tokens', 'access_token']);
+            const tokenType = auth.getIn(['tokens', 'token_type']);
+            console.log('tokens', accessToken);
+            console.log('tokenType', tokenType);
+            if (accessToken) {
               return {
                 ...request,
                 headers: {
                   ...(request.headers || {}),
-                  Authorization: `${tokens.token_type} ${tokens.access_token}`,
+                  Authorization: `${tokenType} ${accessToken}`,
                 },
               };
             }
             return request;
           },
           error: ({ getState, dispatch, getSourceAction }, error) => {
-            return Promise.reject(error);
+            return Promise.reject(fromJS(error || {}));
           },
         },
       ],
@@ -98,14 +103,15 @@ const middlewareOptions = [
           success: function({ getState, dispatch, getSourceAction }, response) {
             console.log('%c================defaultRequest success================', 'color: lime');
             console.log(response); //contains information about request object
-            return Promise.resolve(response.data);
+            return Promise.resolve(fromJS(response.data || {}));
           },
           error: function({ getState, dispatch, getSourceAction }, error) {
             const { response } = error;
+            console.log('response', response);
             if (response && response.status === 401) {
               return errorHandleRefreshToken(getState, dispatch, error);
             }
-            return Promise.reject(error);
+            return Promise.reject(fromJS(error || {}));
           },
         },
       ],
@@ -122,7 +128,7 @@ const middlewareOptions = [
             return request;
           },
           error: ({ getState, dispatch, getSourceAction }, error) => {
-            return Promise.reject(error);
+            return Promise.reject(fromJS(error || {}));
           },
         },
       ],
@@ -131,10 +137,10 @@ const middlewareOptions = [
           success: function({ getState, dispatch, getSourceAction }, response) {
             console.log('%c================defaultRequest success================', 'color: lime');
             console.log(response); //contains information about request object
-            return Promise.resolve(response.data);
+            return Promise.resolve(fromJS(response.data || {}));
           },
           error: function({ getState, dispatch, getSourceAction }, error) {
-            return Promise.reject(error);
+            return Promise.reject(fromJS(error || {}));
           },
         },
       ],

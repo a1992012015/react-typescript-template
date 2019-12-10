@@ -1,8 +1,10 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistReducer, persistStore } from 'redux-persist';
-import createSagaMiddleware from 'redux-saga';
+import Immutable from 'immutable';
 import { routerMiddleware } from 'connected-react-router';
+import immutableTransform from 'redux-persist-transform-immutable';
+import createSagaMiddleware from 'redux-saga';
 import storage from 'redux-persist/lib/storage';
 
 import { combineReducer, history } from './reducers';
@@ -33,6 +35,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const rootPersistConfig = {
   key: 'root',
+  transforms: [immutableTransform()],
   storage: storage,
   timeout: null,
   whitelist: ['auth'],
@@ -41,6 +44,9 @@ const rootPersistConfig = {
 const store = configureStore({
   reducer: persistReducer(rootPersistConfig, combineReducer()),
   middleware: [axiosMiddleware(middlewareOptions), sagaMiddleware, routerMiddleware(history)],
+  serialize: {
+    immutable: Immutable,
+  },
 });
 
 const persists = persistStore(store);

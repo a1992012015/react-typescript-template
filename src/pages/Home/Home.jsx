@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
 
 import { getUserInfoAction, signInAction, signOutActon } from '../../redux/actions/authAction';
+import { BaseComponent } from '../../components/HOComponent/shouldComponentUpdate';
 
 import styles from './Home.module.scss';
 
-class Home extends Component {
+class Home extends BaseComponent {
   userSignIn = () => {
     const { signInDispatch } = this.props;
     signInDispatch({
@@ -26,7 +27,7 @@ class Home extends Component {
   };
 
   render() {
-    console.log('auth', this.props.auth);
+    console.log('auth', this.props.auth.getIn(['userInfo']));
     return (
       <div className={styles.container}>
         <Button onClick={this.userSignIn}>登录</Button>
@@ -155,6 +156,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log('state', state);
   return {
     auth: state.auth,
   };

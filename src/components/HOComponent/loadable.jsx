@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { RouterLoading } from './routerLoading';
+import { BaseComponent } from './shouldComponentUpdate';
 
 const ALL_INITIALIZERS = [];
 const READY_INITIALIZERS = [];
@@ -120,7 +121,7 @@ const createLoadableComponent = (loadFn, options) => {
     });
   }
 
-  return class LoadableComponent extends Component {
+  return class LoadableComponent extends BaseComponent {
     constructor(props) {
       super(props);
       init();
@@ -250,7 +251,7 @@ const LoadableMap = (opts) => {
 
 loadable.Map = LoadableMap;
 
-class Capture extends Component {
+class Capture extends BaseComponent {
   static propTypes = {
     report: PropTypes.func.isRequired,
   };

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
 import { hot } from 'react-hot-loader';
@@ -7,6 +7,7 @@ import { homeMenu } from './configs/homeMenuConfig';
 import { loadable } from './components/HOComponent/loadable';
 import { wrap } from './components/HOComponent/wrap';
 import { SwitchDefault } from './components/HOComponent/switchDefault';
+import { BaseComponent } from './components/HOComponent/shouldComponentUpdate';
 
 import styles from './App.module.scss';
 
@@ -16,7 +17,7 @@ const Transition = loadable(() => import('./pages/Transition/Transition'));
 
 const Countdown = loadable(() => import('./pages/Countdown/Countdown'));
 
-class App extends Component {
+class App extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = {
