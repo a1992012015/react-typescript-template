@@ -9,7 +9,10 @@ import App from './App';
 import { history, persists, store } from './redux';
 import * as serviceWorker from './serviceWorker';
 
+import { setConfig } from 'react-hot-loader';
+
 import './index.scss';
+setConfig({ logLevel: 'debug' });
 
 ReactDOM.render(
   <Provider store={store}>

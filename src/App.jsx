@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { Menu, Icon } from 'antd';
+import { hot } from 'react-hot-loader';
 
 import { homeMenu } from './configs/homeMenuConfig';
 import { loadable } from './components/HOComponent/loadable';
@@ -70,4 +71,4 @@ class App extends Component {
   };
 }
 
-export default App;
+export default process.env.NODE_ENV === 'development' ? hot(module)(App) : App;

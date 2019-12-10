@@ -1,10 +1,21 @@
-const { override, fixBabelImports, addLessLoader } = require('customize-cra');
+const {
+  override,
+  fixBabelImports,
+  addLessLoader,
+  addBabelPlugin,
+  addWebpackAlias,
+} = require('customize-cra');
 
 const bgColor = '#f2f6ff';
 const defaultColor = '#3E80FB';
 const hoverColor = '#145ce2';
 
 const option = [
+  // 添加热更新
+  addBabelPlugin('react-hot-loader/babel'),
+  addWebpackAlias({
+    'react-dom': '@hot-loader/react-dom',
+  }),
   // 按需加载
   fixBabelImports('import', {
     libraryName: 'antd',
