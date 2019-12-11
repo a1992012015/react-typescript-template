@@ -5,7 +5,7 @@ import { defaultRequest, authRequest } from './requestService';
 /**
  * 获取用户token
  * @param data
- * @returns {Promise<AxiosResponse<T>>}
+ * @returns {Promise}
  */
 const getAuthTokenApi = data => {
   return authRequest.post('/oauth/token', qs.stringify(data), {
@@ -18,7 +18,7 @@ const getAuthTokenApi = data => {
 
 /**
  * 获取用户信息
- * @returns {Promise<AxiosResponse<T>>}
+ * @returns {Promise}
  */
 const getUserInfoApi = () => {
   return defaultRequest.get('/users');

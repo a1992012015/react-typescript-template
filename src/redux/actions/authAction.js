@@ -1,8 +1,13 @@
 import {
-  AUTH_CLEAN_INFO, AUTH_ERROR, AUTH_GET_INFO,
+  AUTH_CLEAN_INFO,
+  AUTH_ERROR,
+  AUTH_GET_INFO,
   AUTH_SAVE_INFO,
+  AUTH_SAVE_LOADING,
   AUTH_SAVE_TOKEN,
-  AUTH_SIGN_IN, AUTH_SIGN_OUT,
+  AUTH_SIGN_IN,
+  AUTH_SIGN_OUT,
+  AUTH_UPDATE_USER,
 } from '../actionTypes/authType';
 
 const signInAction = (values) => {
@@ -54,6 +59,18 @@ const saveInfoAction = (userInfo) => {
   };
 };
 
+const updateUserAction = () => {
+  return {
+    type: AUTH_UPDATE_USER,
+  };
+};
+
+const saveLoadingAction = () => {
+  return {
+    type: AUTH_SAVE_LOADING,
+  };
+};
+
 export {
   signInAction,
   getUserInfoAction,
@@ -61,5 +78,7 @@ export {
   authErrorAction,
   cleanAuthAction,
   saveTokenAction,
+  saveLoadingAction,
+  updateUserAction,
   saveInfoAction,
 };

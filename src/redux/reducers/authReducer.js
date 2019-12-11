@@ -1,8 +1,14 @@
 import { Map } from 'immutable';
 
-import { AUTH_CLEAN_INFO, AUTH_SAVE_INFO, AUTH_SAVE_TOKEN } from '../actionTypes/authType';
+import {
+  AUTH_CLEAN_INFO,
+  AUTH_SAVE_INFO,
+  AUTH_SAVE_LOADING,
+  AUTH_SAVE_TOKEN,
+} from '../actionTypes/authType';
 
 const authInit = Map({
+  loading: false,
   userInfo: null,
   tokens: null,
 });
@@ -10,12 +16,14 @@ const authInit = Map({
 export function authReducer(state = authInit, action) {
   switch (action.type) {
   case AUTH_SAVE_INFO:
+    state = state.set('loading', false);
     return state.set('userInfo', action.userInfo);
   case AUTH_SAVE_TOKEN:
-    console.log(action.token);
     return state.set('tokens', action.token);
   case AUTH_CLEAN_INFO:
     return authInit;
+  case AUTH_SAVE_LOADING:
+    return state.set('loading', true);
   default:
     return state;
   }

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { fromJS } from 'immutable';
 import qs from 'qs';
+import { fromJS } from 'immutable';
 
 import { environment } from '../environments';
 import { authErrorAction, saveTokenAction } from '../redux/actions/authAction';
@@ -21,7 +21,7 @@ const authRequest = axios.create({
 /**
  * 刷新用户token
  * @param refreshToken
- * @returns {Promise<AxiosResponse<T>>}
+ * @returns {Promise}
  */
 const refreshTokenApi = (refreshToken) => {
   return authRequest.post('/oauth/token', qs.stringify({
@@ -32,8 +32,7 @@ const refreshTokenApi = (refreshToken) => {
       'Authorization': 'Basic Y2xpZW50OnNlY3JldA==',
       'Content-type': 'application/x-www-form-urlencoded',
     },
-  },
-  );
+  });
 };
 
 const errorHandleRefreshToken = (getState, dispatch, errors) => {
@@ -48,11 +47,10 @@ const errorHandleRefreshToken = (getState, dispatch, errors) => {
       const subscribers = [...refreshSubscribers];
       subscribers.map(cb => cb());
       refreshSubscribers = [];
-    })
-      .catch(() => {
-        dispatch(authErrorAction());
-        refreshSubscribers = [];
-      });
+    }).catch(() => {
+      dispatch(authErrorAction());
+      refreshSubscribers = [];
+    });
   } else {
     return Promise.reject(fromJS(errors || {}));
   }
@@ -101,7 +99,7 @@ const middlewareOptions = [
       response: [
         {
           success: function({ getState, dispatch, getSourceAction }, response) {
-            console.log('%c================defaultRequest success================', 'color: lime');
+            console.log('%c================defaultResponse success================', 'color: lime');
             console.log(response); //contains information about request object
             return Promise.resolve(fromJS(response.data || {}));
           },
@@ -135,7 +133,7 @@ const middlewareOptions = [
       response: [
         {
           success: function({ getState, dispatch, getSourceAction }, response) {
-            console.log('%c================defaultRequest success================', 'color: lime');
+            console.log('%c================authResponse success================', 'color: lime');
             console.log(response); //contains information about request object
             return Promise.resolve(fromJS(response.data || {}));
           },

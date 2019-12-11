@@ -1,16 +1,17 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistReducer, persistStore } from 'redux-persist';
-import Immutable from 'immutable';
-import { routerMiddleware } from 'connected-react-router';
+import { routerMiddleware } from 'connected-react-router/immutable';
 import immutableTransform from 'redux-persist-transform-immutable';
-import createSagaMiddleware from 'redux-saga';
 import storage from 'redux-persist/lib/storage';
+import createSagaMiddleware from 'redux-saga';
+import Immutable, { Map } from 'immutable';
 
 import { combineReducer, history } from './reducers';
 import { rootSaga } from './sagaWatch';
 import { axiosMiddleware } from './middleware/axiosMiddleware';
 import { middlewareOptions } from '../services/requestService';
+import { autoMergeLevel2 } from './middleware/autoMergeLevel2';
 
 /**
  * Create a Redux store complete with potential development settings
@@ -38,12 +39,13 @@ const rootPersistConfig = {
   transforms: [immutableTransform()],
   storage: storage,
   timeout: null,
-  whitelist: ['auth'],
+  stateReconciler: autoMergeLevel2,
 };
 
 const store = configureStore({
   reducer: persistReducer(rootPersistConfig, combineReducer()),
   middleware: [axiosMiddleware(middlewareOptions), sagaMiddleware, routerMiddleware(history)],
+  initialState: { auth: Map({ loading: false }) },
   serialize: {
     immutable: Immutable,
   },

@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
 
-import { getUserInfoAction, signInAction, signOutActon } from '../../redux/actions/authAction';
+import {
+  getUserInfoAction,
+  signInAction,
+  signOutActon,
+  updateUserAction,
+} from '../../redux/actions/authAction';
 import { BaseComponent } from '../../components/HOComponent/shouldComponentUpdate';
 
 import styles from './Home.module.scss';
 
 class Home extends BaseComponent {
+  componentDidMount() {
+    const { auth, getUserInfoDispatch } = this.props;
+    if (auth.getIn(['tokens', 'access_token'])) {
+      getUserInfoDispatch();
+    }
+  }
+
   userSignIn = () => {
     const { signInDispatch } = this.props;
     signInDispatch({
@@ -17,8 +29,8 @@ class Home extends BaseComponent {
   };
 
   getUserInfo = () => {
-    const { getUserInfoDispatch } = this.props;
-    getUserInfoDispatch();
+    const { updateUserDispatch } = this.props;
+    updateUserDispatch();
   };
 
   userSignOut = () => {
@@ -27,129 +39,27 @@ class Home extends BaseComponent {
   };
 
   render() {
-    console.log('auth', this.props.auth.getIn(['userInfo']));
+    const { auth } = this.props;
     return (
       <div className={styles.container}>
-        <Button onClick={this.userSignIn}>登录</Button>
-        <Button onClick={this.getUserInfo}>获取用户信息</Button>
-        <Button onClick={this.userSignOut}>退出</Button>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
-        <p>This is Home....</p>
+        <div className={styles.status}>
+          {
+            auth.get('loading') ? (
+              '登录中。。。'
+            ) : !auth.get('tokens') ? (
+              <Button className={styles.statusBtn} onClick={this.userSignIn}>登录</Button>
+            ) : (
+              <Fragment>
+                <Button className={styles.statusBtn} onClick={this.userSignOut}>退出</Button>
+                <Button className={styles.statusBtn} onClick={this.getUserInfo}>获取用户信息</Button>
+              </Fragment>
+            )
+          }
+        </div>
+
+        <p>username: {auth.getIn(['userInfo', 'username'])}</p>
+        <p>phone: {auth.getIn(['userInfo', 'phone'])}</p>
+        <p>access token :{auth.getIn(['tokens', 'access_token'])}</p>
       </div>
     );
   }
@@ -166,6 +76,7 @@ const mapDispatchToProps = {
   signInDispatch: signInAction,
   signOutDispatch: signOutActon,
   getUserInfoDispatch: getUserInfoAction,
+  updateUserDispatch: updateUserAction,
 };
 
 export default connect(
