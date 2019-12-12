@@ -59,14 +59,14 @@ class Home extends BaseComponent {
 
         <p>username: {auth.getIn(['userInfo', 'username'])}</p>
         <p>phone: {auth.getIn(['userInfo', 'phone'])}</p>
-        <p>access token :{auth.getIn(['tokens', 'access_token'])}</p>
+        <p>access token: {auth.getIn(['tokens', 'access_token'])}</p>
+        <p>refresh token: {auth.getIn(['tokens', 'refresh_token'])}</p>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log('state', state);
   return {
     auth: state.auth,
   };

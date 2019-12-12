@@ -72,14 +72,10 @@ const middlewareOptions = [
     interceptors: {
       request: [
         {
-          success: ({ getState, dispatch, getSourceAction }, request) => {
-            console.log('%c================defaultRequest success================', 'color: red');
-            console.log('request', request);
+          success: ({ getState }, request) => {
             const { auth } = getState();
             const accessToken = auth.getIn(['tokens', 'access_token']);
             const tokenType = auth.getIn(['tokens', 'token_type']);
-            console.log('tokens', accessToken);
-            console.log('tokenType', tokenType);
             if (accessToken) {
               return {
                 ...request,
@@ -91,21 +87,18 @@ const middlewareOptions = [
             }
             return request;
           },
-          error: ({ getState, dispatch, getSourceAction }, error) => {
+          error: (store, error) => {
             return Promise.reject(fromJS(error || {}));
           },
         },
       ],
       response: [
         {
-          success: function({ getState, dispatch, getSourceAction }, response) {
-            console.log('%c================defaultResponse success================', 'color: lime');
-            console.log(response); //contains information about request object
+          success: function(store, response) {
             return Promise.resolve(fromJS(response.data || {}));
           },
-          error: function({ getState, dispatch, getSourceAction }, error) {
+          error: function({ getState, dispatch }, error) {
             const { response } = error;
-            console.log('response', response);
             if (response && response.status === 401) {
               return errorHandleRefreshToken(getState, dispatch, error);
             }
@@ -120,24 +113,20 @@ const middlewareOptions = [
     interceptors: {
       request: [
         {
-          success: ({ getState, dispatch }, request) => {
-            console.log('%c================authRequest success================', 'color: red');
-            console.log('request', request);
+          success: (store, request) => {
             return request;
           },
-          error: ({ getState, dispatch, getSourceAction }, error) => {
+          error: (store, error) => {
             return Promise.reject(fromJS(error || {}));
           },
         },
       ],
       response: [
         {
-          success: function({ getState, dispatch, getSourceAction }, response) {
-            console.log('%c================authResponse success================', 'color: lime');
-            console.log(response); //contains information about request object
+          success: function(store, response) {
             return Promise.resolve(fromJS(response.data || {}));
           },
-          error: function({ getState, dispatch, getSourceAction }, error) {
+          error: function(store, error) {
             return Promise.reject(fromJS(error || {}));
           },
         },

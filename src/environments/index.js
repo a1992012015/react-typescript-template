@@ -12,6 +12,7 @@ const environments = {
 
 const reactAppEnvironment = process.env.REACT_APP_ENVIRONMENT || 'production';
 
+/* eslint-disable-next-line */
 console.log(`%cenvironments => ${reactAppEnvironment}`, 'color: red; font-style: italic;');
 
 const environment = {

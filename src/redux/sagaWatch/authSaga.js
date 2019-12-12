@@ -22,7 +22,8 @@ function* getTokenWork(payload) {
     yield put(saveTokenAction(tokens));
     yield call(getUserInfoWork);
   } catch (e) {
-    console.log('getTokenWork error', e);
+    // TODO 获取token的错误处理
+    console.error('getTokenWork error', e);
   }
 }
 
@@ -31,7 +32,8 @@ function* getUserInfoWork() {
     const userInfo = yield call(getUserInfoApi);
     yield put(saveInfoAction(userInfo));
   } catch (e) {
-    console.log('getUserInfoWork error', e);
+    // TODO 获取用户信息的错误处理
+    console.error('getUserInfoWork error', e);
   }
 }
 
@@ -51,7 +53,6 @@ function* signInWatch() {
     }
     const action = yield take([AUTH_SIGN_OUT, AUTH_ERROR]);
     if (action.type === AUTH_SIGN_OUT) {
-      console.log(AUTH_SIGN_OUT);
       yield cancel(task);
     }
     yield put(authErrorAction());

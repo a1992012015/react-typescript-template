@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { BaseComponent } from '../../components/HOComponent/shouldComponentUpdate';
 

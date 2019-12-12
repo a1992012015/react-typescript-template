@@ -16,8 +16,7 @@ const authInit = Map({
 export function authReducer(state = authInit, action) {
   switch (action.type) {
   case AUTH_SAVE_INFO:
-    state = state.set('loading', false);
-    return state.set('userInfo', action.userInfo);
+    return state.set('userInfo', action.userInfo).set('loading', false);
   case AUTH_SAVE_TOKEN:
     return state.set('tokens', action.token);
   case AUTH_CLEAN_INFO:
