@@ -37,23 +37,23 @@ class App extends BaseComponent {
   };
 
   render() {
-    const { defaultPath } = this.state;
+    // const { defaultPath } = this.state;
     const { history } = this.props;
     return (
       <div className={styles.App}>
-        <Menu
-          onClick={this.handleClick}
-          className={styles.AppMenu}
-          defaultSelectedKeys={defaultPath}
-          mode='inline'
-        >
-          {this.renderHomeMenu()}
-        </Menu>
+        {/*<Menu*/}
+        {/*  onClick={this.handleClick}*/}
+        {/*  className={styles.AppMenu}*/}
+        {/*  defaultSelectedKeys={defaultPath}*/}
+        {/*  mode='inline'*/}
+        {/*>*/}
+        {/*  {this.renderHomeMenu()}*/}
+        {/*</Menu>*/}
 
         <SwitchDefault history={history}>
-          <Route exact={true} path='/home' component={wrap(Home)}/>
+          <Route exact={true} path='/home' component={wrap(Countdown)}/>
           <Route exact={true} path='/transition' component={wrap(Transition)}/>
-          <Route exact={true} path='/countdown/:name' component={wrap(Countdown)}/>
+          <Route exact={true} path='/countdown/:name' component={wrap(Home)}/>
           <Redirect from='/' to='home'/>
         </SwitchDefault>
       </div>

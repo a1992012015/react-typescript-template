@@ -29,6 +29,7 @@ function* getTokenWork(payload) {
 
 function* getUserInfoWork() {
   try {
+    yield put(saveLoadingAction('infoLoading'));
     const userInfo = yield call(getUserInfoApi);
     yield put(saveInfoAction(userInfo));
   } catch (e) {
@@ -44,7 +45,7 @@ function* authErrorWork() {
 function* signInWatch() {
   while (true) {
     const { type, payload } = yield take([AUTH_SIGN_IN, AUTH_GET_INFO]);
-    yield put(saveLoadingAction());
+    yield put(saveLoadingAction('loading'));
     let task = null;
     if (type === AUTH_GET_INFO) {
       task = yield fork(getUserInfoWork);

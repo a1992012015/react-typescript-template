@@ -65,9 +65,10 @@ const updateUserAction = () => {
   };
 };
 
-const saveLoadingAction = () => {
+const saveLoadingAction = (key) => {
   return {
     type: AUTH_SAVE_LOADING,
+    key: key,
   };
 };
 

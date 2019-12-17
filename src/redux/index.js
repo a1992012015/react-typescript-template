@@ -45,7 +45,7 @@ const rootPersistConfig = {
 const store = configureStore({
   reducer: persistReducer(rootPersistConfig, combineReducer()),
   middleware: [axiosMiddleware(middlewareOptions), sagaMiddleware, routerMiddleware(history)],
-  initialState: { auth: Map({ loading: false }) },
+  initialState: { auth: Map({ loading: false, infoLoading: false }) },
   serialize: {
     immutable: Immutable,
   },

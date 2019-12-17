@@ -51,7 +51,11 @@ class Home extends BaseComponent {
             ) : (
               <Fragment>
                 <Button className={styles.statusBtn} onClick={this.userSignOut}>退出</Button>
-                <Button className={styles.statusBtn} onClick={this.getUserInfo}>获取用户信息</Button>
+                {
+                  auth.get('infoLoading') ? '获取用户信息。。。' : (
+                    <Button className={styles.statusBtn} onClick={this.getUserInfo}>获取用户信息</Button>
+                  )
+                }
               </Fragment>
             )
           }

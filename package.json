@@ -25,6 +25,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "build:server": "react-app-rewired build && rm -rf ../random-number/public/* && mv build/* ../random-number/public/",
     "build:dev": "cross-env REACT_APP_ENVIRONMENT=dev react-app-rewired build react-scripts",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
