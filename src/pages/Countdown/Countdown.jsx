@@ -1,12 +1,15 @@
 import React from 'react';
 import { List } from 'immutable';
 import { Button, Col, Form, Input, InputNumber, Row, Select, Table } from 'antd';
+import html2canvas from 'html2canvas';
+import JsPDF from 'jspdf';
 
 import { BaseComponent } from '../../components/HOComponent/shouldComponentUpdate';
 import { defaultRequest } from '../../services/requestService';
 import { natures } from '../../configs/naturesConfig';
 
 import styles from './Countdown.module.scss';
+import { getUuid } from '../../services/commonService';
 
 class Countdown extends BaseComponent {
   columns = [
@@ -49,11 +52,13 @@ class Countdown extends BaseComponent {
       render: (IVs) => JSON.stringify(IVs),
     },
   ];
+  htmlRef = React.createRef();
 
   constructor(props) {
     super(props);
     this.state = {
       list: List([]),
+      isPagination: false,
     };
   }
 
@@ -68,7 +73,7 @@ class Countdown extends BaseComponent {
     //   ha: 1,
     //   randomGender: 1,
     // };
-    defaultRequest.post('http://localhost:3000/api/filter-list', body).then(res => {
+    defaultRequest.post('http://34.84.60.103:3000/api/filter-list', body).then(res => {
       const { form } = this.props;
       const proportion = form.getFieldValue('proportion');
       this.setState({
@@ -84,7 +89,7 @@ class Countdown extends BaseComponent {
         const body = {};
         Object.keys(values).forEach((key) => {
           if (typeof values[key] === 'string') {
-            body[key] = parseInt(values[key], 10);
+            body[key] = parseInt(values[key], 16);
           } else {
             body[key] = values[key];
           }
@@ -130,11 +135,66 @@ class Countdown extends BaseComponent {
     });
   };
 
+  creatPDFFile = () => {
+    html2canvas(this.htmlRef.current, { scale: 2 }).then((canvas) => {
+      //返回图片dataURL，参数：图片格式和清晰度(0-1)
+      const pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+      const dims = {
+        a2: [1190.55, 1683.78],
+        a3: [841.89, 1190.55],
+        a4: [595.28, 841.89],
+      };
+      //方向默认竖直，尺寸ponits，格式a2
+      const pdf = new JsPDF('', 'pt', 'a4');
+
+      const a4Width = dims['a4'][0];
+      const a4Height = dims['a4'][1];
+
+      const contentWidth = canvas.width;
+      const contentHeight = canvas.height;
+
+      const pageHeight = contentWidth / a4Width * a4Height;
+      const imgWidth = a4Width;
+      const imgHeight = a4Width / contentWidth * contentHeight;
+      let leftHeight = contentHeight;
+      let position = 0;
+
+      if (leftHeight < pageHeight) {
+        //addImage后两个参数控制添加图片的尺寸，此处将页面高度按照a4纸宽高比列进行压缩
+        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+      } else {
+        while (leftHeight > 0) {
+          pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight);
+          leftHeight -= pageHeight;
+          position -= a4Height;
+
+          if (leftHeight > 0) {
+            pdf.addPage();
+          }
+        }
+      }
+
+      pdf.save(`${getUuid()}.pdf`);
+      this.setState({
+        isPagination: false,
+      });
+    });
+  };
+
+  downloadPDF = () => {
+    this.setState({
+      isPagination: true,
+    }, () => {
+      this.creatPDFFile();
+    });
+  };
+
   render() {
     const { list } = this.state;
     const { form } = this.props;
     return (
-      <div className={styles.container}>
+      <div className={styles.container} ref={this.htmlRef}>
         <Form className='ant-advanced-search-form' onSubmit={this.handleSubmit}>
           <Row gutter={24}>
             <Col span={8}>
@@ -308,7 +368,13 @@ class Countdown extends BaseComponent {
             </Col>
 
             <Col span={24} className={styles.submitBtn}>
-              <Button htmlType='submit'>开始检索</Button>
+              <Button className={styles.formBtn} htmlType='submit'>开始检索</Button>
+              <Button
+                className={styles.formBtn}
+                htmlType='button'
+                onClick={this.downloadPDF}
+                disabled={list.size === 0}
+              >导出过滤列表</Button>
             </Col>
           </Row>
         </Form>
@@ -319,11 +385,16 @@ class Countdown extends BaseComponent {
   }
 
   renderIndividualValue = (list) => {
+    const { isPagination } = this.state;
     return (
       <Table
         className={styles.tableWrap}
         rowKey='seed'
         dataSource={list.toJS()}
+        pagination={{
+          pageSize: isPagination ? list.size : 10,
+          hideOnSinglePage: true,
+        }}
         columns={this.columns}
       />
     );
