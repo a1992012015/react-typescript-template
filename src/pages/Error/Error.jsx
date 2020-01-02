@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { BaseComponent } from '../../components/HOComponent/shouldComponentUpdate';
+import { BaseComponent } from '../../baseClass/ShouldComponentUpdate';
 
 import styles from './Error.module.scss';
 

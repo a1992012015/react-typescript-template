@@ -33,3 +33,10 @@ code {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+.loading-spin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}

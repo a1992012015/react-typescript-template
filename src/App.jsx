@@ -1,21 +1,21 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { Menu, Icon } from 'antd';
+import { Redirect, Route } from 'react-router-dom';
+import { Icon, Menu } from 'antd';
 import { hot } from 'react-hot-loader';
 
 import { homeMenu } from './configs/homeMenuConfig';
 import { loadable } from './components/HOComponent/loadable';
 import { wrap } from './components/HOComponent/wrap';
 import { SwitchDefault } from './components/HOComponent/switchDefault';
-import { BaseComponent } from './components/HOComponent/shouldComponentUpdate';
+import { BaseComponent } from './baseClass/ShouldComponentUpdate';
 
 import styles from './App.module.scss';
 
-const Home = loadable(() => import('./pages/Home/Home'));
+const FindSeed = loadable(() => import('./pages/FindSeed/FindSeed'));
 
-const Transition = loadable(() => import('./pages/Transition/Transition'));
+const IndividualValues = loadable(() => import('./pages/IndividualValues/IndividualValues'));
 
-const Countdown = loadable(() => import('./pages/Countdown/Countdown'));
+const PokemonDen = loadable(() => import('./pages/PokemonDen/PokemonDen'));
 
 class App extends BaseComponent {
   constructor(props) {
@@ -37,24 +37,24 @@ class App extends BaseComponent {
   };
 
   render() {
-    // const { defaultPath } = this.state;
+    const { defaultPath } = this.state;
     const { history } = this.props;
     return (
       <div className={styles.App}>
-        {/*<Menu*/}
-        {/*  onClick={this.handleClick}*/}
-        {/*  className={styles.AppMenu}*/}
-        {/*  defaultSelectedKeys={defaultPath}*/}
-        {/*  mode='inline'*/}
-        {/*>*/}
-        {/*  {this.renderHomeMenu()}*/}
-        {/*</Menu>*/}
+        <Menu
+          onClick={this.handleClick}
+          className={styles.AppMenu}
+          defaultSelectedKeys={defaultPath}
+          mode='horizontal'
+        >
+          {this.renderHomeMenu()}
+        </Menu>
 
         <SwitchDefault history={history}>
-          <Route exact={true} path='/home' component={wrap(Countdown)}/>
-          <Route exact={true} path='/transition' component={wrap(Transition)}/>
-          <Route exact={true} path='/countdown/:name' component={wrap(Home)}/>
-          <Redirect from='/' to='home'/>
+          <Route exact={true} path='/find-seed' component={wrap(FindSeed)}/>
+          <Route exact={true} path='/individual-values' component={wrap(IndividualValues)}/>
+          <Route exact={true} path='/pokémon-den' component={wrap(PokemonDen)}/>
+          <Redirect exact={true} from='/' to='/find-seed'/>
         </SwitchDefault>
       </div>
     );

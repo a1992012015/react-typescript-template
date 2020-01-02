@@ -19,5 +19,15 @@
 }
 
 .formBtn {
-  margin: 0 5px;
+  margin: 0 5px 10px;
+}
+
+.pay {
+  display: flex;
+  justify-content: space-around;
+
+  img {
+    width: 20%;
+    height: auto;
+  }
 }

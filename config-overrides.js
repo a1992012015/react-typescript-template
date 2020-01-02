@@ -6,9 +6,9 @@ const {
   addWebpackAlias,
 } = require('customize-cra');
 
-const bgColor = '#f2f6ff';
-const defaultColor = '#3E80FB';
-const hoverColor = '#145ce2';
+// const bgColor = '#f2f6ff';
+// const defaultColor = '#3E80FB';
+// const hoverColor = '#145ce2';
 
 const option = [
   // 添加热更新
@@ -26,14 +26,14 @@ const option = [
   addLessLoader({
     javascriptEnabled: true,
     modifyVars: {
-      '@primary-color': defaultColor,
+      // '@primary-color': defaultColor,
       '@border-radius-base': '2px',
-      '@link-hover-color': hoverColor,
-      '@btn-default-border': defaultColor,
-      '@btn-default-color': defaultColor,
-      '@table-row-hover-bg': bgColor,
-      '@item-hover-bg': bgColor,
-      '@menu-bg': bgColor,
+      // '@link-hover-color': hoverColor,
+      // '@btn-default-border': defaultColor,
+      // '@btn-default-color': defaultColor,
+      // '@table-row-hover-bg': bgColor,
+      // '@item-hover-bg': bgColor,
+      // '@menu-bg': bgColor,
     },
   }),
 ];

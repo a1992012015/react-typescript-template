@@ -8,7 +8,7 @@ import {
   signOutActon,
   updateUserAction,
 } from '../../redux/actions/authAction';
-import { BaseComponent } from '../../components/HOComponent/shouldComponentUpdate';
+import { BaseComponent } from '../../baseClass/ShouldComponentUpdate';
 
 import styles from './Home.module.scss';
 

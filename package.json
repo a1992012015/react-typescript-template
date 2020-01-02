@@ -1,16 +1,18 @@
 {
-  "name": "my-react-test",
-  "version": "0.1.0",
+  "name": "find-tool",
+  "version": "2.2.0",
   "private": true,
+  "main": "main.js",
+  "homepage": ".",
   "dependencies": {
     "antd": "^3.26.0",
     "axios": "^0.19.0",
+    "bignumber.js": "^9.0.0",
     "connected-react-router": "^6.6.1",
     "history": "^4.10.1",
     "hoist-non-react-statics": "^3.3.1",
-    "html2canvas": "^1.0.0-rc.5",
     "immutable": "^4.0.0-rc.12",
-    "jspdf": "^1.5.3",
+    "is-electron": "^2.2.0",
     "path-to-regexp": "^6.1.0",
     "qs": "^6.9.1",
     "react": "^16.12.0",
@@ -30,7 +32,52 @@
     "build:server": "react-app-rewired build && rm -rf ../random-number/public/* && mv build/* ../random-number/public/",
     "build:dev": "cross-env REACT_APP_ENVIRONMENT=dev react-app-rewired build react-scripts",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-start": "cross-env ENVIRONMENT=development electron .",
+    "build-python-mac": "rm -rf ./pydist && pyinstaller api-mac.spec --distpath ./pydist",
+    "build-python-windows": "rm -rf ./pydist && pyinstaller api-windows.spec --distpath ./pydist",
+    "builder": "cross-env ENVIRONMENT=production electron-builder build",
+    "builder-mac": "yarn build-python-mac && yarn build && yarn builder",
+    "builder-windows": "yarn build-python-windows && yarn build && yarn builder"
+  },
+  "build": {
+    "appId": "com.github.findtool",
+    "productName": "find tool",
+    "copyright": "Copyright 2020 by Garnet",
+    "extends": null,
+    "directories": {
+      "output": "builder-out"
+    },
+    "publish": [
+      {
+        "provider": "github"
+      }
+    ],
+    "asar": false,
+    "files": [
+      "build",
+      "pydist",
+      "main.js",
+      "preload.js"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "ia32",
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "ia32",
+            "x64"
+          ]
+        }
+      ]
+    }
   },
   "husky": {
     "hooks": {
@@ -63,6 +110,10 @@
     "babel-plugin-import": "^1.13.0",
     "cross-env": "^6.0.3",
     "customize-cra": "^0.9.1",
+    "electron": "^7.1.7",
+    "electron-builder": "^21.2.0",
+    "electron-log": "^4.0.2",
+    "electron-updater": "^4.2.0",
     "husky": "^3.1.0",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",

@@ -6,6 +6,10 @@ const routerTransition = {
 
 const transitionList = [
   {
+    enter: 'from-opacity',
+    exit: 'to-opacity',
+  },
+  {
     enter: 'from-right',
     exit: 'to-right',
   },

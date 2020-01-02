@@ -3,6 +3,8 @@ import { is } from 'immutable';
 
 export class BaseComponent extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
+    /* eslint-disable-next-line */
+    console.log('nextContext', nextContext);
     const thisProps = this.props || {};
     const thisState = this.state || {};
     nextState = nextState || {};

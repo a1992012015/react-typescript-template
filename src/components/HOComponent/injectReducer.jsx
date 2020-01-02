@@ -1,7 +1,7 @@
 import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
-import { BaseComponent } from './shouldComponentUpdate';
+import { BaseComponent } from '../../baseClass/ShouldComponentUpdate';
 import { injectReducer } from '../../redux';
 
 /**
